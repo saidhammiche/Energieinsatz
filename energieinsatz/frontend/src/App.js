@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  Card, 
   Button, 
   Typography, 
   Layout,
@@ -15,11 +14,24 @@ const EnergyPlanning = () => {
   const [editMode, setEditMode] = useState(false);
   const [content, setContent] = useState({});
   const [initialContent] = useState({
-    // ... (contenu initial inchangé)
+    'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">siehe Reiter "Energieeinsatz"</a>',
+    'cell-2': '<ul style="padding-left: 20px; margin: 0;"><li>exogen</li><li>Materialfreiheit</li><li>Außentemperatur / Wetter</li><li>endogen (Anlagen, Anlagensteuerung)</li></ul>',
+    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiOTMwZDZkODUtZWQ2Yy00ZGQ3LThlNjktYWY5YjVlNzA0YjNkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe Tabellenblatt "Übersicht &amp; Energieverteilung"</a>',
+    'cell-4': 'Strom, Presse1, Presse2, Kran, UBC_Aufbereitung, Lüftung &amp; Druckluft Kratzhalle, mobiles Equipment, Kraftstoff (Diesel), Bagger, Radlader, Stapler',
+    'cell-5': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1700" target="_blank" rel="noopener noreferrer">Siehe Tabellenblatt "Energiepotentialanalyse"</a>',
+    'cell-6': '2015<br>für Aktionszentrum<br>→ Basis 2020',
+    'cell-7': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1853" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "EnPIs"</a>',
+    'cell-8': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
+    'cell-9': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
+    'cell-10': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
+    'cell-11': '<div style="text-align: left;">Primärenergie</div><div style="text-align: right;">Diesel</div><div style="text-align: right;">Erdgas</div><div style="text-align: left;">Sekundärenergie</div><div style="text-align: right;">Fremdstrom</div>',
+    'cell-12': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Heizungkessel</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluftkompressoren</div>',
+    'cell-13': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">warm</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluft</div>',
+    'cell-14': '<div style="display: flex; justify-content: space-around; height: 100%;"><div style="text-align: center; padding: 0 5px;" title="Verwaltungsgebaude">V<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Heizug">H<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Presse I+II">GP<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Kran">K<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Dosenpresse">DP<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Kratzhalle">KH<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Werkstatt">W<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Aussenbereich">AB<br>✓</div><div style="text-align: center; padding: 0 5px;" title="mobile fahzeuge">FZ<br>✓</div></div>',
+    'cell-15': '<a href="https://app.powerbi.com/view?r=eyJrIjoiN2Q0ZWI3ZWEtMDE0NC00NmNkLTkzNDgtMGY3Y2Y5NzhjYzBkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>'
   });
 
-  // Charger le contenu depuis localStorage au montage du composant
-  useEffect(() => {
+  const loadContent = useCallback(() => {
     const savedContent = localStorage.getItem('energyPlanningContent');
     if (savedContent) {
       setContent(JSON.parse(savedContent));
@@ -28,7 +40,10 @@ const EnergyPlanning = () => {
     }
   }, [initialContent]);
 
-  // Sauvegarder le contenu dans localStorage à chaque modification
+  useEffect(() => {
+    loadContent();
+  }, [loadContent]);
+
   useEffect(() => {
     if (Object.keys(content).length > 0) {
       localStorage.setItem('energyPlanningContent', JSON.stringify(content));
@@ -168,7 +183,6 @@ const EnergyPlanning = () => {
     <Layout style={{ padding: 24, background: 'white', minHeight: '100vh' }}>
       <Content>
         <div style={{ maxWidth: 1800, margin: '0 auto', background: 'white' }}>
-          {/* En-tête avec boutons */}
           <div style={{ display: 'flex', width: '100%', marginBottom: 16, position: 'relative' }}>
             <div style={{ position: 'absolute', left: 0, top: 0 }}>
               <Button 
@@ -197,7 +211,6 @@ const EnergyPlanning = () => {
             </div>
           </div>
 
-          {/* Boutons de contrôle d'édition */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
             {editMode ? (
               <>
@@ -241,7 +254,6 @@ const EnergyPlanning = () => {
             )}
           </div>
 
-          {/* Contenu principal avec disposition flexbox */}
           <div style={{ 
             display: 'flex', 
             flexWrap: 'nowrap', 
@@ -251,7 +263,6 @@ const EnergyPlanning = () => {
             borderRadius: 8 
           }}>
             
-            {/* Partie gauche - Energieplanung (3 colonnes) */}
             <div style={{ 
               display: 'flex', 
               flex: 3, 
@@ -260,7 +271,6 @@ const EnergyPlanning = () => {
               padding: '0 20px' 
             }}>
               
-              {/* Colonne 1 */}
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div style={{ 
                   background: 'white', 
@@ -296,7 +306,7 @@ const EnergyPlanning = () => {
                   </table>
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <tbody>
-                      <tr style={{ backgroundColor: '##d3d3d3' }}>
+                      <tr style={{ backgroundColor: '#d3d3d3' }}>
                         <td style={{ padding: 6 }}>Relevante energet. Variablen</td>
                       </tr>
                       <tr style={{ backgroundColor: '#cce5ff' }}>
@@ -311,10 +321,8 @@ const EnergyPlanning = () => {
                 </div>
               </div>
               
-              {/* Flèche entre colonne 1 et 2 */}
               <div style={{ marginTop: 50 }}>→</div>
               
-              {/* Colonne 2 */}
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div style={{ 
                   background: 'white', 
@@ -379,10 +387,8 @@ const EnergyPlanning = () => {
                 </div>
               </div>
               
-              {/* Flèche entre colonne 2 et 3 */}
               <div style={{ marginTop: 50 }}>→</div>
               
-              {/* Colonne 3 */}
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div style={{ 
                   background: 'white', 
@@ -476,7 +482,6 @@ const EnergyPlanning = () => {
               </div>
             </div>
             
-            {/* Séparateur vertical */}
             <div style={{ 
               width: 1, 
               background: '#aaa', 
@@ -485,7 +490,6 @@ const EnergyPlanning = () => {
               alignSelf: 'center' 
             }}></div>
             
-            {/* Partie droite - Energieeinsatz (4 colonnes) */}
             <div style={{ 
               display: 'flex', 
               flex: 4, 
@@ -495,10 +499,8 @@ const EnergyPlanning = () => {
               flexDirection: 'column' 
             }}>
               
-              {/* Ligne supérieure avec les 4 tableaux */}
               <div style={{ display: 'flex', gap: 10, width: '100%' }}>
                 
-                {/* Colonne 1 - Energiebezug */}
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ 
                     background: 'white', 
@@ -526,10 +528,8 @@ const EnergyPlanning = () => {
                   </div>
                 </div>
                 
-                {/* Flèche entre colonne 1 et 2 */}
                 <div style={{ marginTop: 50 }}>→</div>
                 
-                {/* Colonne 2 - Primärenergieeinsatz */}
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ 
                     background: 'white', 
@@ -557,10 +557,8 @@ const EnergyPlanning = () => {
                   </div>
                 </div>
                 
-                {/* Flèche entre colonne 2 et 3 */}
                 <div style={{ marginTop: 50 }}>→</div>
                 
-                {/* Colonne 3 - Energieumwandkung/-output */}
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ 
                     background: 'white', 
@@ -588,10 +586,8 @@ const EnergyPlanning = () => {
                   </div>
                 </div>
                 
-                {/* Flèche entre colonne 3 et 4 */}
                 <div style={{ marginTop: 50 }}>→</div>
                 
-                {/* Colonne 4 - Energieeinsatzort */}
                 <div style={{ flex: 1.5, minWidth: 300 }}>
                   <div style={{ 
                     background: 'white', 
@@ -605,10 +601,12 @@ const EnergyPlanning = () => {
                     <table style={{ width: '100%', borderCollapse: 'collapse', height: '100%' }}>
                       <tbody>
                         <tr style={{ backgroundColor: '#d3d3d3' }}>
-                          <td style={{ padding: 6, textAlign: 'center' }}>Energieeinsatzort</td>
+                          <td style={{ padding: '6px', textAlign: 'center' }} colSpan={9}>
+                            Energieeinsatzort
+                          </td>
                         </tr>
                         <tr style={{ backgroundColor: '#cce5ff' }}>
-                          <td style={{ padding: 6, height: '100%', verticalAlign: 'top' }}>
+                          <td style={{ padding: '6px', height: '100%', verticalAlign: 'top' }} colSpan={9}>
                             <EditableCell cellId="cell-14">
                               {content['cell-14'] || initialContent['cell-14']}
                             </EditableCell>
@@ -620,7 +618,6 @@ const EnergyPlanning = () => {
                 </div>
               </div>
               
-              {/* Tableau SEUs en dessous */}
               <div style={{ 
                 background: 'white', 
                 padding: 10, 

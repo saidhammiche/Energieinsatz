@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  energieinsatz-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: energieinsatz-frontend
+    ports:
+      - "3017:3000"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
