@@ -5,7 +5,7 @@ import {
   Layout,
   notification 
 } from 'antd';
-import { EditOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, SaveOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -13,6 +13,10 @@ const { Content } = Layout;
 const EnergyPlanning = () => {
   const [editMode, setEditMode] = useState(false);
   const [content, setContent] = useState({});
+  
+  // NOUVEAU LIEN SEUs
+  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZlIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
+
   const [initialContent] = useState({
     'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">siehe Reiter "Energieeinsatz"</a>',
     'cell-2': '<ul style="padding-left: 20px; margin: 0;"><li>exogen</li><li>Materialfreiheit</li><li>Außentemperatur / Wetter</li><li>endogen (Anlagen, Anlagensteuerung)</li></ul>',
@@ -27,28 +31,106 @@ const EnergyPlanning = () => {
     'cell-11': '<div style="text-align: left;">Primärenergie</div><div style="text-align: right;">Diesel</div><div style="text-align: right;">Erdgas</div><div style="text-align: left;">Sekundärenergie</div><div style="text-align: right;">Fremdstrom</div>',
     'cell-12': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Heizungkessel</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluftkompressoren</div>',
     'cell-13': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">warm</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluft</div>',
-    'cell-14': '<div style="display: flex; justify-content: space-around; height: 100%;"><div style="text-align: center; padding: 0 5px;" title="Verwaltungsgebaude">V<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Heizug">H<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Presse I+II">GP<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Kran">K<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Dosenpresse">DP<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Kratzhalle">KH<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Werkstatt">W<br>✓<br>✓</div><div style="text-align: center; padding: 0 5px;" title="Aussenbereich">AB<br>✓</div><div style="text-align: center; padding: 0 5px;" title="mobile fahzeuge">FZ<br>✓</div></div>',
-    'cell-15': '<a href="https://app.powerbi.com/view?r=eyJrIjoiN2Q0ZWI3ZWEtMDE0NC00NmNkLTkzNDgtMGY3Y2Y5NzhjYzBkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>'
+    'cell-14': '<table style="width: 100%; height: 100%;"><tr><td style="text-align: center; padding: 0 5px;" title="Verwaltungsgebaude">V<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Heizug">H<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Presse I+II">GP<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Kran">K<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Dosenpresse">DP<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Kratzhalle">KH<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Werkstatt">W<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Aussenbereich">AB<br>✓</td><td style="text-align: center; padding: 0 5px;" title="mobile fahzeuge">FZ<br>✓</td></tr></table>',
+    // NOUVEAU LIEN SEUs
+    'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>`
   });
+
+  // Version pour gérer les mises à jour du contenu - INCREMENTEE
+  const [contentVersion] = useState('v3');
+
+  // Correction et mise à jour du localStorage
+  useEffect(() => {
+    const storageKey = 'energyPlanningContent';
+    const versionKey = 'energyPlanningVersion';
+    
+    const currentVersion = localStorage.getItem(versionKey);
+    const savedContent = localStorage.getItem(storageKey);
+
+    // Si la version a changé ou si le contenu n'existe pas, réinitialiser avec le nouveau contenu
+    if (currentVersion !== contentVersion || !savedContent) {
+      console.log('Mise à jour du contenu vers la version:', contentVersion);
+      localStorage.setItem(storageKey, JSON.stringify(initialContent));
+      localStorage.setItem(versionKey, contentVersion);
+      setContent(initialContent);
+    } else {
+      try {
+        const parsedContent = JSON.parse(savedContent);
+        
+        // Correction robuste pour tous les liens potentiellement corrompus
+        const correctedContent = { ...parsedContent };
+        
+        // Fonction générique pour corriger les liens
+        const correctLinks = (htmlContent) => {
+          if (!htmlContent) return htmlContent;
+          
+          // Correction des doubles guillemets
+          let corrected = htmlContent.replace(/href=""/g, 'href="');
+          corrected = corrected.replace(/href="https:/g, 'href="https://');
+          corrected = corrected.replace(/href="http:/g, 'href="http://');
+          
+          // S'assurer que le lien SEUs est correct avec le NOUVEAU LIEN
+          if (corrected.includes('Siehe Reiter "SEUs"')) {
+            corrected = corrected.replace(
+              /href="[^"]*"/, 
+              `href="${newSEUsLink}"`
+            );
+          }
+          
+          return corrected;
+        };
+
+        // Appliquer la correction à toutes les cellules
+        Object.keys(correctedContent).forEach(key => {
+          if (typeof correctedContent[key] === 'string') {
+            correctedContent[key] = correctLinks(correctedContent[key]);
+          }
+        });
+
+        // FORCER la mise à jour du lien SEUs si nécessaire
+        if (correctedContent['cell-15'] && !correctedContent['cell-15'].includes('eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZl')) {
+          correctedContent['cell-15'] = initialContent['cell-15'];
+        }
+
+        setContent(correctedContent);
+        localStorage.setItem(storageKey, JSON.stringify(correctedContent));
+        
+      } catch (error) {
+        console.error('Erreur lors du parsing du contenu sauvegardé:', error);
+        localStorage.setItem(storageKey, JSON.stringify(initialContent));
+        localStorage.setItem(versionKey, contentVersion);
+        setContent(initialContent);
+      }
+    }
+  }, [initialContent, contentVersion, newSEUsLink]);
 
   const loadContent = useCallback(() => {
     const savedContent = localStorage.getItem('energyPlanningContent');
     if (savedContent) {
-      setContent(JSON.parse(savedContent));
+      try {
+        const parsedContent = JSON.parse(savedContent);
+        setContent(parsedContent);
+      } catch (error) {
+        console.error('Erreur lors du chargement du contenu:', error);
+        setContent(initialContent);
+      }
     } else {
       setContent(initialContent);
     }
   }, [initialContent]);
 
-  useEffect(() => {
-    loadContent();
-  }, [loadContent]);
-
-  useEffect(() => {
-    if (Object.keys(content).length > 0) {
-      localStorage.setItem('energyPlanningContent', JSON.stringify(content));
-    }
-  }, [content]);
+  // Fonction pour forcer la réinitialisation du contenu
+  const resetToInitialContent = () => {
+    localStorage.setItem('energyPlanningContent', JSON.stringify(initialContent));
+    localStorage.setItem('energyPlanningVersion', contentVersion);
+    setContent(initialContent);
+    notification.success({
+      message: ' Reinitialisieren',
+      description: 'Tous les contenus ont été remis à leur valeur initiale avec le nouveau lien SEUs.',
+      duration: 2,
+      placement: 'topRight'
+    });
+  };
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -63,6 +145,7 @@ const EnergyPlanning = () => {
 
   const saveChanges = () => {
     setEditMode(false);
+    localStorage.setItem('energyPlanningContent', JSON.stringify(content));
     notification.success({
       message: 'Änderungen erfolgreich gespeichert',
       description: 'Alle Modifikationen wurden im System gesichert.',
@@ -73,12 +156,7 @@ const EnergyPlanning = () => {
 
   const cancelEdit = () => {
     setEditMode(false);
-    const savedContent = localStorage.getItem('energyPlanningContent');
-    if (savedContent) {
-      setContent(JSON.parse(savedContent));
-    } else {
-      setContent(initialContent);
-    }
+    loadContent();
     notification.info({
       message: 'Bearbeitungsmodus deaktiviert',
       description: 'Die vorgenommenen Änderungen wurden verworfen.',
@@ -211,14 +289,13 @@ const EnergyPlanning = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16, gap: 8 }}>
             {editMode ? (
               <>
                 <Button 
                   icon={<SaveOutlined />} 
                   onClick={saveChanges} 
                   style={{ 
-                    marginRight: 8,
                     backgroundColor: '#52c41a',
                     borderColor: '#52c41a',
                     color: 'white'
@@ -239,18 +316,31 @@ const EnergyPlanning = () => {
                 </Button>
               </>
             ) : (
-              <Button 
-                icon={<EditOutlined />} 
-                onClick={toggleEditMode} 
-                type="primary"
-                style={{
-                  backgroundColor: '#1890ff',
-                  borderColor: '#1890ff',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                }}
-              >
-                Bearbeitungsmodus aktivieren
-              </Button>
+              <>
+                <Button 
+                  icon={<EditOutlined />} 
+                  onClick={toggleEditMode} 
+                  type="primary"
+                  style={{
+                    backgroundColor: '#1890ff',
+                    borderColor: '#1890ff',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                  }}
+                >
+                  Bearbeitungsmodus aktivieren
+                </Button>
+                <Button 
+                  icon={<ReloadOutlined />}
+                  onClick={resetToInitialContent}
+                  style={{
+                    backgroundColor: '#faad14',
+                    borderColor: '#faad14',
+                    color: 'white'
+                  }}
+                >
+                  Contenu réinitialiser
+                </Button>
+              </>
             )}
           </div>
 
@@ -641,6 +731,23 @@ const EnergyPlanning = () => {
                 </table>
               </div>
             </div>
+          </div>
+
+          {/* Debug info - à enlever en production */}
+          <div style={{ 
+            marginTop: 20, 
+            padding: 10, 
+            background: '#f5f5f5', 
+            borderRadius: 5,
+            fontSize: 12,
+            color: '#666'
+          }}>
+            <strong>Debug Info:</strong> Version {contentVersion} | 
+            Lien SEUs: {content['cell-15'] && content['cell-15'].includes('eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZl') ? '✓ Nouveau lien' : '✗ Ancien lien'}
+            <br/>
+            <span style={{ fontSize: 10, wordBreak: 'break-all' }}>
+              Lien actuel: {content['cell-15'] ? (content['cell-15'].match(/href="([^"]*)"/)?.[1] || 'Lien non trouvé') : 'N/A'}
+            </span>
           </div>
         </div>
       </Content>
