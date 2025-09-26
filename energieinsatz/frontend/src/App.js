@@ -3,7 +3,8 @@ import {
   Button, 
   Typography, 
   Layout,
-  notification 
+  notification,
+  Tooltip
 } from 'antd';
 import { EditOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 
@@ -31,14 +32,85 @@ const EnergyPlanning = () => {
     'cell-11': '<div style="text-align: left;">Primärenergie</div><div style="text-align: right;">Diesel</div><div style="text-align: right;">Erdgas</div><div style="text-align: left;">Sekundärenergie</div><div style="text-align: right;">Fremdstrom</div>',
     'cell-12': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Heizungkessel</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluftkompressoren</div>',
     'cell-13': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">warm</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluft</div>',
-    // CORRECTION DE L'ALIGNEMENT - toutes les lettres sur la même ligne
-    'cell-14': '<table style="width: 100%; height: 100%;"><tr><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Verwaltungsgebaude"><div style="display: inline-block; margin: 0 2px;">V</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Heizug"><div style="display: inline-block; margin: 0 2px;">H</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Presse I+II"><div style="display: inline-block; margin: 0 2px;">GP</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Kran"><div style="display: inline-block; margin: 0 2px;">K</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Dosenpresse"><div style="display: inline-block; margin: 0 2px;">DP</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Kratzhalle"><div style="display: inline-block; margin: 0 2px;">KH</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Werkstatt"><div style="display: inline-block; margin: 0 2px;">W</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Aussenbereich"><div style="display: inline-block; margin: 0 2px;">AB</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="mobile fahzeuge"><div style="display: inline-block; margin: 0 2px;">FZ</div><div style="display: inline-block; margin: 0 2px;">✓</div></td></tr></table>',
+    // NOUVEAU TABLEAU Energieeinsatzort RESTRUCTURÉ AVEC TOOLTIPS
+    'cell-14': `<div style="display: flex; justify-content: space-between; align-items: flex-start; height: 100%; padding: 0 5px;">
+      <!-- Colonne 1: V -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Vorbehandlung">V</div>
+        <div style="height: 8px;"></div>
+        <div>✓</div>
+        <div style="height: 8px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 2: H -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Halle">H</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 3: GP -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Grobpressen">GP</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+        <div style="height: 8px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 4: K -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Kratzen">K</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 5: DP -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Detailpressen">DP</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 6: KH -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Kratzhalle">KH</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+        <div style="height: 8px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 7: W -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Werkstatt">W</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+        <div style="height: 8px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 8: AB -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Abfalldeponie">AB</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+      </div>
+      
+      <!-- Colonne 9: FZ -->
+      <div style="display: flex; flex-direction: column; align-items: center; min-width: 30px;">
+        <div style="font-weight: bold; margin-bottom: 3px; cursor: help;" title="Fahrzeuge">FZ</div>
+        <div style="height: 24px;"></div>
+        <div>✓</div>
+      </div>
+    </div>`,
     // NOUVEAU LIEN SEUs
     'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>`
   });
 
   // Version pour gérer les mises à jour du contenu - INCREMENTEE
-  const [contentVersion] = useState('v3');
+  const [contentVersion] = useState('v4');
 
   // Correction et mise à jour du localStorage
   useEffect(() => {
@@ -57,45 +129,7 @@ const EnergyPlanning = () => {
     } else {
       try {
         const parsedContent = JSON.parse(savedContent);
-        
-        // Correction robuste pour tous les liens potentiellement corrompus
-        const correctedContent = { ...parsedContent };
-        
-        // Fonction générique pour corriger les liens
-        const correctLinks = (htmlContent) => {
-          if (!htmlContent) return htmlContent;
-          
-          // Correction des doubles guillemets
-          let corrected = htmlContent.replace(/href=""/g, 'href="');
-          corrected = corrected.replace(/href="https:/g, 'href="https://');
-          corrected = corrected.replace(/href="http:/g, 'href="http://');
-          
-          // S'assurer que le lien SEUs est correct avec le NOUVEAU LIEN
-          if (corrected.includes('Siehe Reiter "SEUs"')) {
-            corrected = corrected.replace(
-              /href="[^"]*"/, 
-              `href="${newSEUsLink}"`
-            );
-          }
-          
-          return corrected;
-        };
-
-        // Appliquer la correction à toutes les cellules
-        Object.keys(correctedContent).forEach(key => {
-          if (typeof correctedContent[key] === 'string') {
-            correctedContent[key] = correctLinks(correctedContent[key]);
-          }
-        });
-
-        // FORCER la mise à jour du lien SEUs si nécessaire
-        if (correctedContent['cell-15'] && !correctedContent['cell-15'].includes('eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZl')) {
-          correctedContent['cell-15'] = initialContent['cell-15'];
-        }
-
-        setContent(correctedContent);
-        localStorage.setItem(storageKey, JSON.stringify(correctedContent));
-        
+        setContent(parsedContent);
       } catch (error) {
         console.error('Erreur lors du parsing du contenu sauvegardé:', error);
         localStorage.setItem(storageKey, JSON.stringify(initialContent));
@@ -153,6 +187,206 @@ const EnergyPlanning = () => {
     });
   };
 
+  // Composant spécial pour la cellule 14 avec Tooltips Antd
+  const EnergyUsageLocationCell = ({ cellId }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempContent, setTempContent] = useState(content[cellId] || '');
+
+    useEffect(() => {
+      setTempContent(content[cellId] || '');
+    }, [content, cellId]);
+
+    const handleSave = () => {
+      handleContentChange(cellId, tempContent);
+      setIsEditing(false);
+      notification.success({
+        message: 'Zellinhalt aktualisiert',
+        description: 'Die Änderungen wurden erfolgreich übernommen.',
+        duration: 1.5,
+        placement: 'topRight'
+      });
+    };
+
+    const handleCancel = () => {
+      setTempContent(content[cellId] || '');
+      setIsEditing(false);
+    };
+
+    // Définition des tooltips pour chaque lettre
+    const letterTooltips = {
+      'V': 'Vorbehandlung',
+      'H': 'Halle', 
+      'GP': 'Grobpressen',
+      'K': 'Kratzen',
+      'DP': 'Detailpressen',
+      'KH': 'Kratzhalle',
+      'W': 'Werkstatt',
+      'AB': 'Abfalldeponie',
+      'FZ': 'Fahrzeuge'
+    };
+
+    // Composant d'affichage normal avec Tooltips Antd
+    const renderWithTooltips = () => (
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', height: '100%', padding: '0 5px'}}>
+        {/* Colonne V */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Vorbehandlung">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>V</div>
+          </Tooltip>
+          <div style={{height: '8px'}}></div>
+          <div>✓</div>
+          <div style={{height: '8px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne H */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Halle">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>H</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne GP */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Grobpressen">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>GP</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+          <div style={{height: '8px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne K */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Kratzen">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>K</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne DP */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Detailpressen">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>DP</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne KH */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Kratzhalle">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>KH</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+          <div style={{height: '8px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne W */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Werkstatt">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>W</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+          <div style={{height: '8px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne AB */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Abfalldeponie">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>AB</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+        </div>
+        
+        {/* Colonne FZ */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '30px'}}>
+          <Tooltip title="Fahrzeuge">
+            <div style={{fontWeight: 'bold', marginBottom: '3px', cursor: 'help'}}>FZ</div>
+          </Tooltip>
+          <div style={{height: '24px'}}></div>
+          <div>✓</div>
+        </div>
+      </div>
+    );
+
+    return (
+      <div style={{ position: 'relative' }}>
+        {editMode && !isEditing && (
+          <Button 
+            icon={<EditOutlined />} 
+            size="small" 
+            type="primary"
+            style={{ 
+              position: 'absolute', 
+              top: 5, 
+              right: 5, 
+              zIndex: 10,
+              backgroundColor: '#1890ff',
+              borderColor: '#1890ff',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
+            onClick={() => setIsEditing(true)}
+          />
+        )}
+        
+        {isEditing ? (
+          <div>
+            <div
+              contentEditable
+              dangerouslySetInnerHTML={{ __html: tempContent }}
+              onInput={(e) => setTempContent(e.target.innerHTML)}
+              style={{
+                backgroundColor: '#ffffcc',
+                outline: '2px solid #4a90e2',
+                padding: 6,
+                minHeight: 40
+              }}
+            />
+            <div style={{ marginTop: 8 }}>
+              <Button 
+                icon={<SaveOutlined />} 
+                size="small" 
+                onClick={handleSave} 
+                style={{ 
+                  marginRight: 8,
+                  backgroundColor: '#52c41a',
+                  borderColor: '#52c41a',
+                  color: 'white'
+                }}
+              >
+                Speichern
+              </Button>
+              <Button 
+                icon={<CloseOutlined />} 
+                size="small" 
+                onClick={handleCancel}
+                style={{
+                  backgroundColor: '#f5222d',
+                  borderColor: '#f5222d',
+                  color: 'white'
+                }}
+              >
+                Abbrechen
+              </Button>
+            </div>
+          </div>
+        ) : (
+          renderWithTooltips()
+        )}
+      </div>
+    );
+  };
+
   const EditableCell = ({ cellId, children }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempContent, setTempContent] = useState(content[cellId] || '');
@@ -176,6 +410,11 @@ const EnergyPlanning = () => {
       setTempContent(content[cellId] || '');
       setIsEditing(false);
     };
+
+    // Si c'est la cellule 14, utiliser le composant spécial
+    if (cellId === 'cell-14') {
+      return <EnergyUsageLocationCell cellId={cellId} />;
+    }
 
     return (
       <div style={{ position: 'relative' }}>
