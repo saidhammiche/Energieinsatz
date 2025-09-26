@@ -5,7 +5,7 @@ import {
   Layout,
   notification 
 } from 'antd';
-import { EditOutlined, SaveOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons';
+import { EditOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -31,7 +31,8 @@ const EnergyPlanning = () => {
     'cell-11': '<div style="text-align: left;">Primärenergie</div><div style="text-align: right;">Diesel</div><div style="text-align: right;">Erdgas</div><div style="text-align: left;">Sekundärenergie</div><div style="text-align: right;">Fremdstrom</div>',
     'cell-12': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Heizungkessel</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluftkompressoren</div>',
     'cell-13': '<div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">warm</div><div style="height: 12px;"></div><div style="height: 12px;"></div><div style="text-align: left;">Druckluft</div>',
-    'cell-14': '<table style="width: 100%; height: 100%;"><tr><td style="text-align: center; padding: 0 5px;" title="Verwaltungsgebaude">V<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Heizug">H<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Presse I+II">GP<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Kran">K<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Dosenpresse">DP<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Kratzhalle">KH<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Werkstatt">W<br>✓<br>✓</td><td style="text-align: center; padding: 0 5px;" title="Aussenbereich">AB<br>✓</td><td style="text-align: center; padding: 0 5px;" title="mobile fahzeuge">FZ<br>✓</td></tr></table>',
+    // CORRECTION DE L'ALIGNEMENT - toutes les lettres sur la même ligne
+    'cell-14': '<table style="width: 100%; height: 100%;"><tr><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Verwaltungsgebaude"><div style="display: inline-block; margin: 0 2px;">V</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Heizug"><div style="display: inline-block; margin: 0 2px;">H</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Presse I+II"><div style="display: inline-block; margin: 0 2px;">GP</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Kran"><div style="display: inline-block; margin: 0 2px;">K</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Dosenpresse"><div style="display: inline-block; margin: 0 2px;">DP</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Kratzhalle"><div style="display: inline-block; margin: 0 2px;">KH</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Werkstatt"><div style="display: inline-block; margin: 0 2px;">W</div><div style="display: inline-block; margin: 0 2px;">✓</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="Aussenbereich"><div style="display: inline-block; margin: 0 2px;">AB</div><div style="display: inline-block; margin: 0 2px;">✓</div></td><td style="text-align: center; padding: 0 5px; vertical-align: middle;" title="mobile fahzeuge"><div style="display: inline-block; margin: 0 2px;">FZ</div><div style="display: inline-block; margin: 0 2px;">✓</div></td></tr></table>',
     // NOUVEAU LIEN SEUs
     'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>`
   });
@@ -118,19 +119,6 @@ const EnergyPlanning = () => {
       setContent(initialContent);
     }
   }, [initialContent]);
-
-  // Fonction pour forcer la réinitialisation du contenu
-  const resetToInitialContent = () => {
-    localStorage.setItem('energyPlanningContent', JSON.stringify(initialContent));
-    localStorage.setItem('energyPlanningVersion', contentVersion);
-    setContent(initialContent);
-    notification.success({
-      message: ' Reinitialisieren',
-      description: 'Tous les contenus ont été remis à leur valeur initiale avec le nouveau lien SEUs.',
-      duration: 2,
-      placement: 'topRight'
-    });
-  };
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -316,31 +304,18 @@ const EnergyPlanning = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Button 
-                  icon={<EditOutlined />} 
-                  onClick={toggleEditMode} 
-                  type="primary"
-                  style={{
-                    backgroundColor: '#1890ff',
-                    borderColor: '#1890ff',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}
-                >
-                  Bearbeitungsmodus aktivieren
-                </Button>
-                <Button 
-                  icon={<ReloadOutlined />}
-                  onClick={resetToInitialContent}
-                  style={{
-                    backgroundColor: '#faad14',
-                    borderColor: '#faad14',
-                    color: 'white'
-                  }}
-                >
-                  Contenu réinitialiser
-                </Button>
-              </>
+              <Button 
+                icon={<EditOutlined />} 
+                onClick={toggleEditMode} 
+                type="primary"
+                style={{
+                  backgroundColor: '#1890ff',
+                  borderColor: '#1890ff',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}
+              >
+                Bearbeitungsmodus aktivieren
+              </Button>
             )}
           </div>
 
@@ -731,23 +706,6 @@ const EnergyPlanning = () => {
                 </table>
               </div>
             </div>
-          </div>
-
-          {/* Debug info - à enlever en production */}
-          <div style={{ 
-            marginTop: 20, 
-            padding: 10, 
-            background: '#f5f5f5', 
-            borderRadius: 5,
-            fontSize: 12,
-            color: '#666'
-          }}>
-            <strong>Debug Info:</strong> Version {contentVersion} | 
-            Lien SEUs: {content['cell-15'] && content['cell-15'].includes('eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZl') ? '✓ Nouveau lien' : '✗ Ancien lien'}
-            <br/>
-            <span style={{ fontSize: 10, wordBreak: 'break-all' }}>
-              Lien actuel: {content['cell-15'] ? (content['cell-15'].match(/href="([^"]*)"/)?.[1] || 'Lien non trouvé') : 'N/A'}
-            </span>
           </div>
         </div>
       </Content>
