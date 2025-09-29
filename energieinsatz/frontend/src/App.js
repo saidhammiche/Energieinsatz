@@ -490,12 +490,7 @@ const EnergyPlanning = () => {
         <div style={{ maxWidth: 1800, margin: '0 auto', background: 'white' }}>
           <div style={{ display: 'flex', width: '100%', marginBottom: 16, position: 'relative' }}>
             <div style={{ position: 'absolute', left: 0, top: 0 }}>
-              <Button 
-                href="http://4.231.103.159:6081/?page_id=274" 
-                style={{ padding: '6px 12px' }}
-              >
-                Zurück
-              </Button>
+            
             </div>
             
             <div style={{ flex: 1, textAlign: 'center', marginLeft: 100 }}>
