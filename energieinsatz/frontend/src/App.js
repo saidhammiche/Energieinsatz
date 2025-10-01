@@ -29,19 +29,19 @@ const EnergyPlanning = () => {
   const [content, setContent] = useState({});
   
   // NOUVEAU LIEN SEU
-  const newSEUsLink = 'http://10.0.0.16:6081/?page_id=2046';
+  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZlIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
 
   const [initialContent] = useState({
-    'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">siehe Reiter "Energieeinsatz"</a>',
+    'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">Siehe "Energieeinsatz"</a>',
     'cell-2': '<ul style="padding-left: 20px; margin: 0;"><li>exogen</li><li>Materialfreiheit</li><li>Außentemperatur / Wetter</li><li>endogen (Anlagen, Anlagensteuerung)</li></ul>',
-    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiOTMwZDZkODUtZWQ2Yy00ZGQ3LThlNjktYWY5YjVlNzA0YjNkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe Tabellenblatt "Übersicht &amp; Energieverteilung"</a>',
+    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiOTMwZDZkODUtZWQ2Yy00ZGQ3LThlNjktYWY5YjVlNzA0YjNkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe "Übersicht &amp; Energieverteilung"</a>',
     'cell-4': 'Strom, Presse1, Presse2, Kran, UBC_Aufbereitung, Lüftung &amp; Druckluft Kratzhalle, mobiles Equipment, Kraftstoff (Diesel), Bagger, Radlader, Stapler',
-    'cell-5': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1700" target="_blank" rel="noopener noreferrer">Siehe Tabellenblatt "Energiepotentialanalyse"</a>',
+    'cell-5': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1700" target="_blank" rel="noopener noreferrer">Siehe "Energiepotentialanalyse"</a>',
     'cell-6': '2015<br>für Aktionszentrum<br>→ Basis 2020',
-    'cell-7': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1853" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "EnPIs"</a>',
-    'cell-8': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
-    'cell-9': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
-    'cell-10': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">siehe Tabellenblatt "Ziele &amp; Aktionen"</a>',
+    'cell-7': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1853" target="_blank" rel="noopener noreferrer">Siehe "EnPIs"</a>',
+    'cell-8': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">Siehe "Ziele &amp; Aktionen"</a>',
+    'cell-9': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">Siehe "Ziele &amp; Aktionen"</a>',
+    'cell-10': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1752" target="_blank" rel="noopener noreferrer">Siehe "Ziele &amp; Aktionen"</a>',
     
     // ENERGYBEZUG - Version professionnelle améliorée
     'cell-11': `
@@ -314,11 +314,11 @@ const EnergyPlanning = () => {
     `,
 
     // NOUVEAU LIEN SEUs
-    'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe Reiter "SEUs"</a>`
+    'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe "SEUs"</a>`
   });
 
   // Version pour gérer les mises à jour du contenu - INCREMENTEE
-  const [contentVersion] = useState('v13');
+  const [contentVersion] = useState('v14');
 
   // Correction et mise à jour du localStorage
   useEffect(() => {
@@ -345,7 +345,7 @@ const EnergyPlanning = () => {
           corrected = corrected.replace(/href="https:/g, 'href="https://');
           corrected = corrected.replace(/href="http:/g, 'href="http://');
           
-          if (corrected.includes('Siehe Reiter "SEUs"')) {
+          if (corrected.includes('Siehe "SEUs"')) {
             corrected = corrected.replace(
               /href="[^"]*"/, 
               `href="${newSEUsLink}"`
