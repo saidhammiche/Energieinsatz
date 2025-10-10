@@ -29,7 +29,7 @@ const EnergyPlanning = () => {
   const [content, setContent] = useState({});
   
   // NOUVEAU LIEN SEU
-  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiYjI0YmNhMTYtNzZjNi00Mjg2LTkxZGUtNDAzZGJjN2Q4NzZlIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
+  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiOGY3ZGY0M2QtMzEwOC00ZWNhLWI3ZTQtNDNkYTViYTkxM2M3IiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
 
   const [initialContent] = useState({
     'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">Siehe "Energieeinsatz"</a>',
