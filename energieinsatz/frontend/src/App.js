@@ -29,12 +29,13 @@ const EnergyPlanning = () => {
   const [content, setContent] = useState({});
   
   // NOUVEAU LIEN SEU
-  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiOGY3ZGY0M2QtMzEwOC00ZWNhLWI3ZTQtNDNkYTViYTkxM2M3IiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
+  const newSEUsLink = 'https://app.powerbi.com/view?r=eyJrIjoiYzc2MjE0MDQtMmViNS00MTFiLWExYmMtYjY0NWYzOWI0NTE1IiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9';
 
   const [initialContent] = useState({
     'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">Siehe "Energieeinsatz"</a>',
     'cell-2': '<ul style="padding-left: 20px; margin: 0;"><li>exogen</li><li>Materialfreiheit</li><li>Außentemperatur / Wetter</li><li>endogen (Anlagen, Anlagensteuerung)</li></ul>',
-    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiOTMwZDZkODUtZWQ2Yy00ZGQ3LThlNjktYWY5YjVlNzA0YjNkIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe "Übersicht &amp; Energieverteilung"</a>',
+    // CHANGEMENT ICI - NOUVEAU LIEN pour Übersicht & Energieverteilung
+    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiZWY3ODQ3NTMtNjhmZS00OWE3LThlYWUtM2ZmYjU1MzBhNzJmIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe "Übersicht &amp; Energieverteilung"</a>',
     'cell-4': 'Strom, Presse1, Presse2, Kran, UBC_Aufbereitung, Lüftung &amp; Druckluft Kratzhalle, mobiles Equipment, Kraftstoff (Diesel), Bagger, Radlader, Stapler',
     'cell-5': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1700" target="_blank" rel="noopener noreferrer">Siehe "Energiepotentialanalyse"</a>',
     'cell-6': '2015<br>für Aktionszentrum<br>→ Basis 2020',
@@ -317,8 +318,8 @@ const EnergyPlanning = () => {
     'cell-15': `<a style="color: #004085; text-decoration: none;" href="${newSEUsLink}" target="_blank" rel="noopener noreferrer">Siehe "SEUs"</a>`
   });
 
-  // Version pour gérer les mises à jour du contenu - INCREMENTEE
-  const [contentVersion] = useState('v14');
+  // Version pour gérer les mises à jour du contenu - INCREMENTEE à v15 pour forcer la mise à jour
+  const [contentVersion] = useState('v15');
 
   // Correction et mise à jour du localStorage
   useEffect(() => {
@@ -338,6 +339,9 @@ const EnergyPlanning = () => {
         const parsedContent = JSON.parse(savedContent);
         const correctedContent = { ...parsedContent };
         
+        // FORCER la mise à jour du lien cell-3
+        correctedContent['cell-3'] = initialContent['cell-3'];
+
         const correctLinks = (htmlContent) => {
           if (!htmlContent) return htmlContent;
           
@@ -537,7 +541,7 @@ const EnergyPlanning = () => {
       { key: 'GP', title: 'Presse I+II' },
       { key: 'K', title: 'Kran' },
       { key: 'DP', title: 'Dosenpresse' },
-      { key: 'KH', title: 'Kratzhalle' },
+      { key: 'KH', title: 'Krätzehalle' },
       { key: 'W', title: 'Werkstatt' },
       { key: 'AB', title: 'Aussenbereich' },
       { key: 'FZ', title: 'mobile Fahrzeuge' }
