@@ -35,7 +35,7 @@ const EnergyPlanning = () => {
     'cell-1': '<a style="color: #004085; text-decoration: none;" href="/energieeinsatz" target="_blank" rel="noopener noreferrer">Siehe "Energieeinsatz"</a>',
     'cell-2': '<ul style="padding-left: 20px; margin: 0;"><li>exogen</li><li>Materialfreiheit</li><li>Außentemperatur / Wetter</li><li>endogen (Anlagen, Anlagensteuerung)</li></ul>',
     // CHANGEMENT ICI - NOUVEAU LIEN pour Übersicht & Energieverteilung
-    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiZWY3ODQ3NTMtNjhmZS00OWE3LThlYWUtM2ZmYjU1MzBhNzJmIiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe "Übersicht &amp; Energieverteilung"</a>',
+    'cell-3': '<a style="color: #004085; text-decoration: none;" href="https://app.powerbi.com/view?r=eyJrIjoiNGQ2NWUzODMtZmU4NS00OGNmLThhM2YtNjU1YjAwYmI3M2I1IiwidCI6ImVlZjIzZTliLTJhMzctNGIzNi04ZGU1LWU0YzUwMTc5ZDE0NyIsImMiOjh9" target="_blank" rel="noopener noreferrer">Siehe "Übersicht &amp; Energieverteilung"</a>',
     'cell-4': 'Strom, Presse1, Presse2, Kran, UBC_Aufbereitung, Lüftung &amp; Druckluft Kratzhalle, mobiles Equipment, Kraftstoff (Diesel), Bagger, Radlader, Stapler',
     'cell-5': '<a style="color: #004085; text-decoration: none;" href="http://4.231.103.159:6081/?page_id=1700" target="_blank" rel="noopener noreferrer">Siehe "Energiepotentialanalyse"</a>',
     'cell-6': '2015<br>für Aktionszentrum<br>→ Basis 2020',
